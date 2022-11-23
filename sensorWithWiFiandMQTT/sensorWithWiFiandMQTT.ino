@@ -3,8 +3,10 @@
 #include <WiFiNINA.h>
 #include <ArduinoMqttClient.h>
 #include <PubSubClient.h>
+
 #define DHTPIN 2     // Digital pin connected to the DHT sensor
 #define DHTTYPE DHT11   // DHT 11
+DHT dht(DHTPIN, DHTTYPE);
 
 // Adapted From: https://docs.arduino.cc/tutorials/uno-wifi-rev2/uno-wifi-r2-mqtt-device-to-device
 
@@ -12,19 +14,16 @@
 char ssid[] = "Redfernj";       
 char pass[] = "00226573";
 
-//WiFiSSLClient client;
-
-// const char* mqtt_server = "ip"; //change to ip of rasp broker
-
 WiFiClient wifi_client;
 MqttClient mqtt_client(wifi_client);
 
 const char  broker[]      = "sensor.mosquitto.org";
 int         port          = 1883;
-const char  test_topic[]  = "test";
+const char  temp_topic[]  = "temp";
+const char  hmit_topic[]  = "hmit";
 
 const long interval = 8000;
-unsigned long previousMillis = 0;
+unsigned long previous_millis = 0;
 
 int count = 0;
 
@@ -60,5 +59,38 @@ void setup() {
 }
 
 void loop() {
+  mqtt_client.poll();
 
+  unsigned long current_millis = millis();
+
+  if (current_millis - previous_millis >= interval) {
+    previous_millis = current_millis;
+
+      float h = dht.readHumidity();
+      float t = dht.readTemperature();
+      float f = dht.readTemperature(true);
+
+      if (isnan(h) || isnan(t) || isnan(f)) {
+       Serial.println(F("Failed to read from DHT sensor!"));
+       return;
+      }
+
+      Serial.print("Sending message to topic: ");
+      Serial.println(temp_topic);
+      Serial.println(f);
+
+      Serial.print("Sending message to topic: ");
+      Serial.println(hmit_topic);
+      Serial.println(h);
+
+      mqtt_client.beginMessage(temp_topic);
+      mqtt_client.print(f);
+      mqtt_client.endMessage();
+      
+      mqtt_client.beginMessage(hmit_topic);
+      mqtt_client.print(h);
+      mqtt_client.endMessage();
+
+      Serial.println();
+  }
 }
