@@ -1,9 +1,6 @@
 #include "DHT.h"
 #include <WiFiNINA.h>
 #include <ArduinoMqttClient.h>
-//#include <SPI.h>
-//#include <MQTTPubSubClient_Generic.h>
-//#include <PubSubClient.h>
 
 #define DHTPIN 2       // Digital pin connected to the DHT sensor
 #define DHTTYPE DHT11  // DHT 11
@@ -19,10 +16,10 @@ WiFiClient wifi_client;
 MqttClient mqtt_client(wifi_client);
 
 // Specify MQTT information
-const char broker[] = "192.168.10.17";
+const char broker[] = "10.0.0.182"; // <- update on new network
 int port = 1883;
-const char temp_topic[] = "temp";
-const char hmit_topic[] = "hmit";
+const char temp_topic[] = "sensor1/temp";
+const char hmit_topic[] = "sensor1/hmit";
 
 // Message Interval
 const long interval = 8000;
@@ -92,7 +89,7 @@ void loop() {
 
     // Print sensor data
     Serial.print("Sending message to topic: ");
-    Serial.println("sensor1/temp ");
+    Serial.println("sensor1/temp");
     Serial.println(f);
 
     Serial.print("Sending message to topic: ");
@@ -100,11 +97,11 @@ void loop() {
     Serial.println(h);
 
     // Send sensor data to MQTT broker
-    mqtt_client.beginMessage("sensor1/temp ");
+    mqtt_client.beginMessage("sensor1/temp");
     mqtt_client.print(f);
     mqtt_client.endMessage();
 
-    mqtt_client.beginMessage("sensor1/hmit ");
+    mqtt_client.beginMessage("sensor1/hmit");
     mqtt_client.print(h);
     mqtt_client.endMessage();
 
