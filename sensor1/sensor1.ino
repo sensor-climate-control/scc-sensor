@@ -18,8 +18,8 @@ MqttClient mqtt_client(wifi_client);
 // Specify MQTT information
 const char broker[] = "10.0.0.182"; // <- update on new network
 int port = 1883;
-const char temp_topic[] = "sensor1/temp";
-const char hmit_topic[] = "sensor1/hmit";
+const char temp_topic[] = "home/sensor1/temp";
+const char hmit_topic[] = "home/sensor1/hmit";
 
 // Message Interval
 const long interval = 8000;
@@ -85,11 +85,11 @@ void loop() {
       // If pulling sensor data fails print an error message and send message to pi
       Serial.println(F("Failed to read from DHT sensor!"));
 
-      mqtt_client.beginMessage("sensor1/temp");
+      mqtt_client.beginMessage("home/sensor1/temp");
       mqtt_client.print("Failed to read from DHT sensor!");
       mqtt_client.endMessage();
 
-      mqtt_client.beginMessage("sensor1/hmit");
+      mqtt_client.beginMessage("home/sensor1/hmit");
       mqtt_client.print("Failed to read from DHT sensor!");
       mqtt_client.endMessage();
       return;
@@ -97,19 +97,19 @@ void loop() {
 
     // Print sensor data
     Serial.print("Sending message to topic: ");
-    Serial.println("sensor1/temp");
+    Serial.println("home/sensor1/temp");
     Serial.println(f);
 
     Serial.print("Sending message to topic: ");
-    Serial.println("sensor1/hmit ");
+    Serial.println("home/sensor1/hmit ");
     Serial.println(h);
 
     // Send sensor data to MQTT broker
-    mqtt_client.beginMessage("sensor1/temp");
+    mqtt_client.beginMessage("home/sensor1/temp");
     mqtt_client.print(f);
     mqtt_client.endMessage();
 
-    mqtt_client.beginMessage("sensor1/hmit");
+    mqtt_client.beginMessage("home/sensor1/hmit");
     mqtt_client.print(h);
     mqtt_client.endMessage();
 
