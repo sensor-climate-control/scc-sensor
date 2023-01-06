@@ -82,8 +82,16 @@ void loop() {
     float f = dht.readTemperature(true);
 
     if (isnan(h) || isnan(t) || isnan(f)) {
-      // If pulling sensor data fails print an error message
+      // If pulling sensor data fails print an error message and send message to pi
       Serial.println(F("Failed to read from DHT sensor!"));
+
+      mqtt_client.beginMessage("sensor3/temp");
+      mqtt_client.print("Failed to read from DHT sensor!");
+      mqtt_client.endMessage();
+
+      mqtt_client.beginMessage("sensor3/hmit");
+      mqtt_client.print("Failed to read from DHT sensor!");
+      mqtt_client.endMessage();
       return;
     }
 
