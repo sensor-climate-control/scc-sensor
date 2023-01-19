@@ -107,11 +107,13 @@ void loop() {
     // Send sensor data to MQTT broker
     mqtt_client.beginMessage("home/sensor1/temp");
     mqtt_client.print(f);
-    mqtt_client.endMessage();
-
-    mqtt_client.beginMessage("home/sensor1/hmit");
+    mqtt_client.print(",");
     mqtt_client.print(h);
     mqtt_client.endMessage();
+
+    // mqtt_client.beginMessage("home/sensor1/hmit");
+    // mqtt_client.print(h);
+    // mqtt_client.endMessage();
 
     Serial.println();
   }
