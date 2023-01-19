@@ -29,3 +29,10 @@ submit_el.addEventListener('click', async () => {
 	aName_el.value = "";
 	rasip_el.value = "";
 })
+
+const burn_el = document.getElementById('burn');
+burn_el.addEventListener('click', async () => {
+	const res = await api.burnIno();
+	console.log(res);
+	console.log("Test");
+})

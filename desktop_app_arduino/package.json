@@ -12,5 +12,8 @@
   "devDependencies": {
     "electron": "^22.0.2",
     "electron-packager": "^17.1.1"
+  },
+  "dependencies": {
+    "child_process": "^1.0.2"
   }
 }
