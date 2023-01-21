@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const { exec } = require('child_process');
+var XMLHttpRequest = require('xhr2');
 
 function createWindow() {
 	const win = new BrowserWindow({
@@ -13,40 +13,41 @@ function createWindow() {
 	});
 
 	ipcMain.handle('create-file', (req, data) => {
-		if (!data || !data.ssid || !data.pass || !data.aName || !data.rasip) return false;
-		// var pathDown = app.getPath("./Generated Ino");
-		fs.mkdirSync(`./${data.aName}`);
-		var beforessid = fs.readFileSync("./existingIno/beforessid.txt").toString('utf-8');
-		var beforepass = fs.readFileSync("./existingIno/beforepass.txt").toString('utf-8');
-		var beforerasip = fs.readFileSync("./existingIno/beforerasip.txt").toString('utf-8');
-		var end = fs.readFileSync("./existingIno/end.txt").toString('utf-8');
-		var stringToWrite = beforessid.concat(data.ssid, beforepass, data.pass, beforerasip, data.rasip, end);
-		const filePath = path.join(`./${data.aName}`, `${data.aName}.ino`);
-		fs.writeFileSync(filePath, stringToWrite);
+		if (!data || !data.ssid || !data.pass || !data.aLocation || !data.rasip || !data.homeid) return false;
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", `https://osuscc-testing.azurewebsites.net/api/homes/${data.homeid}/sensors/`, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(JSON.stringify({
+			home: data.homeid,
+			name: data.aLocation,
+			active: true,
+			location: data.aLocation,
+			readings: []
+		}));
+		xhr.onload = function () {
+			var responsePost = JSON.parse(this.responseText);
+			var sensorid = responsePost.id;
+			var pathDown = app.getPath("downloads");
+			var beforessid = fs.readFileSync("./existingIno/beforessid.txt").toString('utf-8');
+			var beforepass = fs.readFileSync("./existingIno/beforepass.txt").toString('utf-8');
+			var beforerasip = fs.readFileSync("./existingIno/beforerasip.txt").toString('utf-8');
+			var beforesensorid = fs.readFileSync("./existingIno/beforesensorid.txt").toString('utf-8');
+			var end = fs.readFileSync("./existingIno/end.txt").toString('utf-8');
+			var stringToWrite = beforessid.concat(data.ssid, beforepass, data.pass, beforerasip, data.rasip, beforesensorid, sensorid, end);
+			var configSensorFolderPath = "/sensor_Configurer";
+			var folderpath = pathDown.concat(configSensorFolderPath);
+			if (!fs.existsSync(folderpath)) {
+				fs.mkdirSync(folderpath);
+			}
 
-		return { success: true, filePath };
+			const filePath = path.join(folderpath, "sensor_Configurer.ino");
+			fs.writeFileSync(filePath, stringToWrite);
+			fs.copyFileSync("./bashScript/burn.sh", `${folderpath}/burn.sh`);
+			fs.copyFileSync("./bashScript/arduino-cli.exe", `${folderpath}/arduino-cli.exe`);
+		};
+		return { success: true };
 	})
-
-	ipcMain.handle('burn', (req) => {
-		// var test;
-		return execTest();
-		// exec("ls", (error) => {
-		// 	if(error) {
-		// 		return {fail: test};
-		// 	}
-		// 	else {
-		// 		return {fail: test};
-		// 	}
-		// });
-	})
-
 	win.loadFile(path.join(__dirname, 'src/index.html'));
-}
-
-async function execTest() {
-	const {stdout, stderr } = await exec(`ls ${__dirname}`);
-	console.log(stdout);
-	return true; 
 }
 
 app.whenReady().then(createWindow);

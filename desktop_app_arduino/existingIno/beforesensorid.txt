@@ -1,0 +1,3 @@
+"; // <- update on new network
+int port = 1883;
+const char sensor_topic[] = "home/
