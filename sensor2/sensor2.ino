@@ -3,6 +3,7 @@
 #include <ArduinoMqttClient.h>
 #include <ArduinoHttpClient.h>
 #include <ArduinoJson.h>
+#include "arduino_secrets.h"
 
 #define DHTPIN 2       // Digital pin connected to the DHT sensor
 #define DHTTYPE DHT11  // DHT 11
@@ -11,8 +12,8 @@ DHT dht(DHTPIN, DHTTYPE);
 // Adapted From: https://docs.arduino.cc/tutorials/uno-wifi-rev2/uno-wifi-r2-mqtt-device-to-device
 
 // Specify WiFi information
-char ssid[] = "2.4 700 Markham Unit 103";
-char pass[] = "CXNK0059767C";
+char ssid[] = SECRET_SSID;
+char pass[] = SECRET_PASS;
 
 //create a wifi client for PUT requests
 WiFiSSLClient wifi_client;
@@ -22,16 +23,18 @@ WiFiClient wifi_mqtt;
 MqttClient mqtt_client(wifi_mqtt);
 
 // Specify MQTT information
-const char broker[] = "192.168.10.33"; // <- update on new network
+const char broker[] = SECRET_BROKER; // <- update on new network
 int mqttport = 1883;
-const String sensor_topic = "sensors/63cb39de5209482dd6e98e9e/readings";
-const bool mqttChoice = false;
-
+const String sensor_topic = SECRET_SENSORTOPIC;
+//const String sensor_topic = "sensors/63ee8bcf8af0fbb8f0201c14/readings";
+const String method = SECRET_METHOD;
+//const bool mqttChoice = false;
 // Specify server information
-char server[] = "osuscc-testing.azurewebsites.net";
+//char server[] = "osuscc-testing.azurewebsites.net";
+char server[] = SECRET_SERVER;
 const int port = 443;
-const String extendedUrl = "/api/homes/63c8a874922df840d1d7ec0f/" + sensor_topic;
-
+const String extendedUrl = SECRET_HOMEURL + sensor_topic;
+//const String extendedUrl = "/api/homes/63ed9cb48af0fbb8f0201c11/" + sensor_topic;
 //create a Http client for requests
 HttpClient client = HttpClient(wifi_client, server, port);
 
@@ -59,7 +62,7 @@ void setup() {
   Serial.println("You're connected to the network");
   Serial.println();
 
-  if (mqttChoice == true) {
+  if (method == "mqtt") {
     //connect to mqtt broker
     connectToMqttBroker();
   }   
@@ -91,7 +94,7 @@ void httpRequest(float f, float t, float h) {
   doc["temp_f"] = temp_f;
   doc["temp_c"] = temp_c;
   doc["humidity"] = humidity;
-  doc["date_time"] = "test";
+  //doc["date_time"] = "test";
   String json;
   serializeJson(doc, json);
   //create the request body
@@ -105,7 +108,6 @@ void httpRequest(float f, float t, float h) {
   Serial.println("making PUT request");
   String contentType = "application/json";
   client.put(extendedUrl, contentType, putData);
-  //"/api/homes/63c8a874922df840d1d7ec0f/sensors/63cb39de5209482dd6e98e9e/readings"
   //get status code
   int statusCode = client.responseStatusCode();
   Serial.print("Status code: ");
@@ -156,14 +158,24 @@ void loop() {
     Serial.print("temp_c: ");
     Serial.print(t);
     Serial.println();
-
+    int status;
+    status = WiFi.status();
+    if (status==WL_DISCONNECTED || status==WL_CONNECTION_LOST) {
+      Serial.print("WiFi Connection Lost Attempting to Reconnect:");
+      while (status != WL_CONNECTED) {
+        status = WiFi.begin(ssid, pass);
+        Serial.print(".");
+        delay(10000);
+      }
+    }
     if (isnan(h) || isnan(t) || isnan(f)) {
       // If pulling sensor data fails print an error message
       Serial.println(F("Failed to read from DHT sensor!"));
       previous_millis = current_millis;
       return;
     }
-    if (mqttChoice == false) {
+
+    if (method == "http") {
       httpRequest(f,t,h);
     } else {
       //if the connection to the mqtt broker has been lost try to connect again
