@@ -3,7 +3,7 @@ This is the sensor repository for the Oregon State University Sensor-Based In-Ho
 
 ## Use Case
 The [desktop_app_arduino](https://github.com/sensor-climate-control/scc-sensor/tree/main/desktop_app_arduino) is a ElectronJS desktop app which allows for the configuration of arduinos in order to be used by the project.
-The [sensor2](https://github.com/sensor-climate-control/scc-sensor/tree/main/sensor2) contains a boiler plate sensor2.ino arduino program file as well as [arduino_secrets.h](https://github.com/sensor-climate-control/scc-sensor/blob/main/sensor2/arduino_secrets.h) which stores user inputs. The [arduino_secrets.h](https://github.com/sensor-climate-control/scc-sensor/blob/main/sensor2/arduino_secrets.h) file is what the [desktop_app_arduino](https://github.com/sensor-climate-control/scc-sensor/tree/main/desktop_app_arduino) is configuring.
+The [sensor2](https://github.com/sensor-climate-control/scc-sensor/tree/main/sensor2) contains a boiler plate [sensor2.ino](https://github.com/sensor-climate-control/scc-sensor/blob/main/sensor2/sensor2.ino) arduino program file as well as [arduino_secrets.h](https://github.com/sensor-climate-control/scc-sensor/blob/main/sensor2/arduino_secrets.h) which stores user inputs. The [arduino_secrets.h](https://github.com/sensor-climate-control/scc-sensor/blob/main/sensor2/arduino_secrets.h) file is what the [desktop_app_arduino](https://github.com/sensor-climate-control/scc-sensor/tree/main/desktop_app_arduino) is configuring.
 
 ## Required Hardware
 - [Arduino Nano RP2040 Connect](https://docs.arduino.cc/hardware/nano-rp2040-connect)
