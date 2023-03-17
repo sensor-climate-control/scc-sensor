@@ -12,6 +12,7 @@ The [sensor2](https://github.com/sensor-climate-control/scc-sensor/tree/main/sen
 > *Raspberry Pie is optional if the http method is used in the arduino configuration*
 
 ## Sensor Module Configuration Tool Startup
+Install [NodeJS](https://nodejs.org/en/download/) and ensure you have [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) installed.
 Navigate to [desktop_app_arduino](https://github.com/sensor-climate-control/scc-sensor/tree/main/desktop_app_arduino) and use the following commands:
 ```sh
 npm install
