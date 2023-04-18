@@ -124,11 +124,11 @@ void sendMqtt(float f, float t, float h) {
     // If pulling sensor data fails print an error message and send message to pi
     Serial.println(F("Failed to read from DHT sensor!"));
 
-    mqtt_client.beginMessage(sensor_topic);
+    mqtt_client.beginMessage(extendedUrl);
     mqtt_client.print("Failed to read from DHT sensor!");
     mqtt_client.endMessage();
   } else {
-    mqtt_client.beginMessage(sensor_topic);
+    mqtt_client.beginMessage(extendedUrl);
     mqtt_client.print(f);
     mqtt_client.print(",");
     mqtt_client.print(h);
