@@ -1,0 +1,20 @@
+{
+  "name": "desktop_app_arduino",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^22.0.2",
+    "electron-packager": "^17.1.1"
+  },
+  "dependencies": {
+    "xhr2": "^0.2.1"
+  }
+}
