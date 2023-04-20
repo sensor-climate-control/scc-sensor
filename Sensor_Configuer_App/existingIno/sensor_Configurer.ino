@@ -94,7 +94,7 @@ void httpRequest(float f, float t, float h) {
   doc["temp_f"] = temp_f;
   doc["temp_c"] = temp_c;
   doc["humidity"] = humidity;
-  doc["date_time"] = "test";
+  //doc["date_time"] = "test";
   String json;
   serializeJson(doc, json);
   //create the request body
@@ -124,11 +124,11 @@ void sendMqtt(float f, float t, float h) {
     // If pulling sensor data fails print an error message and send message to pi
     Serial.println(F("Failed to read from DHT sensor!"));
 
-    mqtt_client.beginMessage(sensor_topic);
+    mqtt_client.beginMessage(extendedUrl);
     mqtt_client.print("Failed to read from DHT sensor!");
     mqtt_client.endMessage();
   } else {
-    mqtt_client.beginMessage(sensor_topic);
+    mqtt_client.beginMessage(extendedUrl);
     mqtt_client.print(f);
     mqtt_client.print(",");
     mqtt_client.print(h);
@@ -158,13 +158,23 @@ void loop() {
     Serial.print("temp_c: ");
     Serial.print(t);
     Serial.println();
-
+    int status;
+    status = WiFi.status();
+    if (status==WL_DISCONNECTED || status==WL_CONNECTION_LOST) {
+      Serial.print("WiFi Connection Lost Attempting to Reconnect:");
+      while (status != WL_CONNECTED) {
+        status = WiFi.begin(ssid, pass);
+        Serial.print(".");
+        delay(10000);
+      }
+    }
     if (isnan(h) || isnan(t) || isnan(f)) {
       // If pulling sensor data fails print an error message
       Serial.println(F("Failed to read from DHT sensor!"));
       previous_millis = current_millis;
       return;
     }
+
     if (method == "http") {
       httpRequest(f,t,h);
     } else {
