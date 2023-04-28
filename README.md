@@ -16,8 +16,9 @@ Install [NodeJS](https://nodejs.org/en/download/) and ensure you have [NPM](http
 Navigate to [desktop_app_arduino](https://github.com/sensor-climate-control/scc-sensor/tree/main/desktop_app_arduino) and use the following commands:
 ```sh
 npm install
-npm start
+npm run build
 ```
+Then navigate to the executable
 
 ## Example arduino_secrets.h
 ```C++
