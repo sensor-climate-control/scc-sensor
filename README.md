@@ -28,5 +28,6 @@ Then navigate to the executable
 #define SECRET_SENSORTOPIC "sensors/generated_sensorID/readings" //only the generated_sensorID is changed
 #define SECRET_SERVER "my_domain_name" //domain name or IP for a server you wish to receive the data
 #define SECRET_HOMEURL "/api/homes/generated_homeID/" //only the generated_homeID is changed
+#define SECRET_TOKEN "Bearer generated_token"
 #define SECRET_METHOD "http" //can be either "http" or "mqtt"
 ```
