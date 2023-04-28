@@ -26,16 +26,17 @@ MqttClient mqtt_client(wifi_mqtt);
 const char broker[] = SECRET_BROKER; // <- update on new network
 int mqttport = 1883;
 const String sensor_topic = SECRET_SENSORTOPIC;
-//const String sensor_topic = "sensors/63ee8bcf8af0fbb8f0201c14/readings";
+
+// Specify Mqtt or Http direct choice
 const String method = SECRET_METHOD;
-//const bool mqttChoice = false;
+
+// Specifiy token if http choice is used
+const String bearerToken = SECRET_TOKEN;
 // Specify server information
-//char server[] = "osuscc-testing.azurewebsites.net";
 char server[] = SECRET_SERVER;
 const int port = 443;
 const String extendedUrl = SECRET_HOMEURL + sensor_topic;
-//const String extendedUrl = "/api/homes/63ed9cb48af0fbb8f0201c11/" + sensor_topic;
-//create a Http client for requests
+// Create a Http client for requests
 HttpClient client = HttpClient(wifi_client, server, port);
 
 // Message Interval
@@ -106,8 +107,16 @@ void httpRequest(float f, float t, float h) {
   putData += close;
   //Create PUT request
   Serial.println("making PUT request");
+  //Serial.println(putData);
   String contentType = "application/json";
-  client.put(extendedUrl, contentType, putData);
+  client.beginRequest();
+  client.put(extendedUrl);
+  client.sendHeader(HTTP_HEADER_CONTENT_TYPE, contentType);
+  client.sendHeader(HTTP_HEADER_CONTENT_LENGTH, putData.length());
+  client.sendHeader("Authorization", bearerToken);
+  client.beginBody();
+  client.print(putData);
+  client.endRequest();
   //get status code
   int statusCode = client.responseStatusCode();
   Serial.print("Status code: ");

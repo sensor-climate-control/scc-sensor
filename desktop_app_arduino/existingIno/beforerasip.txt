@@ -1,7 +1,0 @@
-";
-
-WiFiClient wifi_client;
-MqttClient mqtt_client(wifi_client);
-
-// Specify MQTT information
-const char broker[] = "
