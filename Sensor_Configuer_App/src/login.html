@@ -9,6 +9,12 @@
       h1 {
   		color:  #cfeaeb;
 	  }
+      label {
+        color:  #cfeaeb;
+      }
+      h3 {
+        color:  #cfeaeb;
+      }
 
         .container {
         display: flex;
@@ -37,8 +43,12 @@
         </div>
       	<br>
         <h3>If you are using a self hosted option please change the server url below: (Do not include the protocol)</h3>
-        <input type="text" id="server" value="osuscc-testing.azurewebsites.net"/>
             <div>
+                <label for="server">Server: (Do not change if you are not self hosting)</label><br>
+                <input type="text" id="server" value="osuscc-testing.azurewebsites.net"/>
+            </div>
+            <div>
+                <label for="email">Email:</label><br>
                 <input
                 type="email"
                 id="email" 
@@ -46,6 +56,7 @@
                 />
             </div>
             <div>
+                <label for="Password:">Password:</label><br>
                 <input
                 type="password"
                 id="password"

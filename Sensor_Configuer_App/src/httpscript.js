@@ -42,11 +42,11 @@ submit_el.addEventListener('click', async () => {
         aLocation_el.value = "";
         //homeid_el.value = "";
         //server_el.value = "";
-		error.textContent = "Success! Please Navigate To Sensor_Configurer In Your Downloads Folder";
+		error.textContent = "Success! Please run the burn.sh script in the opened folder";
 		error.style.color = "white";
 	} else {
 		//error.textContent = sessionStorage.getItem("homeid");
-		error.textContent = "Please ensure that all fields are complete";
+		error.textContent = "Please ensure that all fields are complete and Sensor Module Location contains no spaces";
 		error.style.color = "red";
 	}
 	//ssid_el.value = "";

@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 var XMLHttpRequest = require('xhr2');
 const fetch = require('node-fetch');
+const {shell} = require('electron')
 globalThis.fetch = fetch
 
 function createWindow() {
@@ -10,8 +11,6 @@ function createWindow() {
 		width: 768,
 		height: 560,
 		webPreferences: {
-			//nodeIntegration: true,
-            //contextIsolation: false,
 			preload: path.join(__dirname, 'preload.js')
 		}
 	});
@@ -69,8 +68,11 @@ function createWindow() {
 				const filePath = path.join(innerFolder, "arduino_secrets.h");
 				fs.writeFileSync(filePath, arduinoSecretsString);
 				fs.copyFileSync("./resources/app/existingIno/sensor_Configurer.ino", `${innerFolder}/${data.aLocation}.ino`);
-				fs.copyFileSync("./resources/app/bashScript/burn.sh", `${innerFolder}/burn.sh`);				
+				fs.copyFileSync("./resources/app/bashScript/burn.sh", `${innerFolder}/burn.sh`);
+				var innerFolderPath = innerFolder.replaceAll('/', '\\');
+				shell.openPath(`${innerFolderPath}`);				
 		})
+		//shell.openPath(`${innerFolder}`);
 		return { success: true };			
 		} else {
 			fetch(`https://${data.server}/api/homes/${data.homeid}/sensors/`, {
@@ -129,7 +131,9 @@ function createWindow() {
 					const filePath = path.join(innerFolder, "arduino_secrets.h");
 					fs.writeFileSync(filePath, arduinoSecretsString);
 					fs.copyFileSync("./resources/app/existingIno/sensor_Configurer.ino", `${innerFolder}/${data.aLocation}.ino`);
-					fs.copyFileSync("./resources/app/bashScript/burn.sh", `${innerFolder}/burn.sh`);				
+					fs.copyFileSync("./resources/app/bashScript/burn.sh", `${innerFolder}/burn.sh`);
+					var innerFolderPath = innerFolder.replaceAll('/', '\\');
+					shell.openPath(`${innerFolderPath}`);				
 				})
 			})
 			return { success: true };
