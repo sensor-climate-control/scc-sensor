@@ -43,7 +43,7 @@ submit_el.addEventListener('click', async () => {
         //homeid_el.value = "";
         //server_el.value = "";
 		error.textContent = "Success! Please run the burn.sh script in the opened folder";
-		error.style.color = "white";
+		error.style.color = "#cfeaeb";
 	} else {
 		//error.textContent = sessionStorage.getItem("homeid");
 		error.textContent = "Please ensure that all fields are complete and Sensor Module Location contains no spaces";

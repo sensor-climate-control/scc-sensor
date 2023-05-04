@@ -40,22 +40,13 @@ function createWindow() {
 				var pathDown = app.getPath("downloads");
 				var SECRET_SSID = `#define SECRET_SSID "${data.ssid}"\n`;
 				var SECRET_PASS = `#define SECRET_PASS "${data.pass}"\n`;
-				if (!data.rasip) {
-					var SECRET_BROKER = `#define SECRET_BROKER "NA"\n`;
-				} else {
-					var SECRET_BROKER = `#define SECRET_BROKER "${data.rasip}"\n`;
-				}
+				var SECRET_BROKER = `#define SECRET_BROKER "${data.rasip}"\n`;
 				var SECRET_SENSORTOPIC = `#define SECRET_SENSORTOPIC "sensors/${sensorid}/readings"\n`;
 				var SECRET_SERVER = `#define SECRET_SERVER "${data.server}"\n`;
 				var SECRET_HOMEURL = `#define SECRET_HOMEURL "/api/homes/${data.homeid}/"\n`;
-				if (!data.rasip) {
-					var SECRET_TOKEN = `#define SECRET_TOKEN "NA"\n`;
-				} else {
-					var SECRET_TOKEN = `#define SECRET_TOKEN "Bearer ${tokendata.token}"\n`; //this should be the token that gets posted	
-				}
-				//var SECRET_TOKEN = `#define SECRET_TOKEN "Bearer ${tokendata.token}"\n`; //this should be the token that gets posted
+				var SECRET_TOKEN = `#define SECRET_TOKEN "NA"\n`;
 				var SECRET_METHOD = `#define SECRET_METHOD "${data.method}"`;
-				var arduinoSecretsString = SECRET_SSID.concat(SECRET_PASS, SECRET_BROKER, SECRET_SENSORTOPIC, SECRET_SERVER, SECRET_HOMEURL, SECRET_TOKEN, SECRET_METHOD)
+				var arduinoSecretsString = SECRET_SSID.concat(SECRET_PASS, SECRET_BROKER, SECRET_SENSORTOPIC, SECRET_SERVER, SECRET_HOMEURL, SECRET_TOKEN, SECRET_METHOD);
 				var configSensorFolderPath = "/sensor_Configurer";
 				var folderpath = pathDown.concat(configSensorFolderPath);
 				if (!fs.existsSync(folderpath)) {
@@ -71,9 +62,8 @@ function createWindow() {
 				fs.copyFileSync("./resources/app/bashScript/burn.sh", `${innerFolder}/burn.sh`);
 				var innerFolderPath = innerFolder.replaceAll('/', '\\');
 				shell.openPath(`${innerFolderPath}`);				
-		})
-		//shell.openPath(`${innerFolder}`);
-		return { success: true };			
+			})
+			return { success: true };			
 		} else {
 			fetch(`https://${data.server}/api/homes/${data.homeid}/sensors/`, {
 				method: 'POST',
@@ -118,7 +108,7 @@ function createWindow() {
 					var SECRET_HOMEURL = `#define SECRET_HOMEURL "/api/homes/${data.homeid}/"\n`;
 					var SECRET_TOKEN = `#define SECRET_TOKEN "Bearer ${tokendata.token}"\n`; //this should be the token that gets posted
 					var SECRET_METHOD = `#define SECRET_METHOD "${data.method}"`;
-					var arduinoSecretsString = SECRET_SSID.concat(SECRET_PASS, SECRET_BROKER, SECRET_SENSORTOPIC, SECRET_SERVER, SECRET_HOMEURL, SECRET_TOKEN, SECRET_METHOD)
+					var arduinoSecretsString = SECRET_SSID.concat(SECRET_PASS, SECRET_BROKER, SECRET_SENSORTOPIC, SECRET_SERVER, SECRET_HOMEURL, SECRET_TOKEN, SECRET_METHOD);
 					var configSensorFolderPath = "/sensor_Configurer";
 					var folderpath = pathDown.concat(configSensorFolderPath);
 					if (!fs.existsSync(folderpath)) {
