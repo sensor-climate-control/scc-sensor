@@ -120,8 +120,12 @@ function createWindow() {
 					}	
 					const filePath = path.join(innerFolder, "arduino_secrets.h");
 					fs.writeFileSync(filePath, arduinoSecretsString);
-					fs.copyFileSync("./resources/app/existingIno/sensor_Configurer.ino", `${innerFolder}/${data.aLocation}.ino`);
-					fs.copyFileSync("./resources/app/bashScript/burn.sh", `${innerFolder}/burn.sh`);
+					var inoFilePath = path.join(__dirname, 'src/existingIno/sensor_Configurer.ino');
+					var bashFilePath = path.join(__dirname, 'src/bashScript/burn.sh');
+					fs.copyFileSync(inoFilePath, `${innerFolder}/${data.aLocation}.ino`);
+					fs.copyFileSync(bashFilePath, `${innerFolder}/burn.sh`);
+					//fs.copyFileSync("./resources/app/existingIno/sensor_Configurer.ino", `${innerFolder}/${data.aLocation}.ino`);
+					//fs.copyFileSync("./resources/app/bashScript/burn.sh", `${innerFolder}/burn.sh`);
 					var innerFolderPath = innerFolder.replaceAll('/', '\\');
 					shell.openPath(`${innerFolderPath}`);				
 				})
