@@ -2,13 +2,13 @@ name: Build/release
 
 on: push
 
-defaults:
-  run:
-    working-directory: Sensor_Configuer_App
-
 jobs:
   release:
     runs-on: ${{ matrix.os }}
+
+    defaults:
+      run:
+        working-directory: ./Sensor_Configuer_App
 
     strategy:
       matrix:
@@ -21,7 +21,7 @@ jobs:
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@v1
         with:
-          node-version: 10
+          node-version: '18.x'
 
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
