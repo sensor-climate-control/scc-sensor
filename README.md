@@ -16,7 +16,7 @@ Install [NodeJS](https://nodejs.org/en/download/) and ensure you have [NPM](http
 Navigate to [Sensor_Configurer_App](https://github.com/sensor-climate-control/scc-sensor/tree/main/Sensor_Configuer_App) and use the following commands:
 ```sh
 npm install
-npm run build
+npm run start
 ```
 Then navigate to the executable
 
