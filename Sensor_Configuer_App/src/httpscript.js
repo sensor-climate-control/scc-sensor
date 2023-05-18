@@ -42,7 +42,7 @@ submit_el.addEventListener('click', async () => {
         aLocation_el.value = "";
         //homeid_el.value = "";
         //server_el.value = "";
-		error.textContent = "Success! Please run the burn.sh script in the opened folder";
+		error.textContent = "Success! Please run the burn.sh script at Downloads/sensor_Configurer/YOUR_LOCATION_NAME/burn.sh";
 		error.style.color = "#cfeaeb";
 	} else {
 		//error.textContent = sessionStorage.getItem("homeid");

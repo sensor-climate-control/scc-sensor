@@ -8,7 +8,7 @@ globalThis.fetch = fetch
 
 function createWindow() {
 	const win = new BrowserWindow({
-		width: 768,
+		width: 880,
 		height: 560,
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.js')
@@ -65,7 +65,8 @@ function createWindow() {
 				//fs.copyFileSync("./resources/app/existingIno/sensor_Configurer.ino", `${innerFolder}/${data.aLocation}.ino`);
 				//fs.copyFileSync("./resources/app/bashScript/burn.sh", `${innerFolder}/burn.sh`);
 				var innerFolderPath = innerFolder.replaceAll('/', '\\');
-				shell.openPath(`${innerFolderPath}`);				
+				shell.showItemInFolder(`${innerFolderPath}\\burn.sh`);
+				//shell.openPath(`${innerFolderPath}`);				
 			})
 			return { success: true };			
 		} else {
@@ -131,7 +132,8 @@ function createWindow() {
 					//fs.copyFileSync("./resources/app/existingIno/sensor_Configurer.ino", `${innerFolder}/${data.aLocation}.ino`);
 					//fs.copyFileSync("./resources/app/bashScript/burn.sh", `${innerFolder}/burn.sh`);
 					var innerFolderPath = innerFolder.replaceAll('/', '\\');
-					shell.openPath(`${innerFolderPath}`);				
+					//shell.openPath(`${innerFolderPath}`);
+					shell.showItemInFolder(`${innerFolderPath}\\burn.sh`);				
 				})
 			})
 			return { success: true };

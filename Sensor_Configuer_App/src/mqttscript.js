@@ -45,7 +45,7 @@ submit_el.addEventListener('click', async () => {
         //homeid_el.value = "";
         //method_el.value = "";
         //server_el.value = "";
-		error.textContent = "Success! Please run the burn.sh script in the opened folder";
+		error.textContent = "Success! Please run the burn.sh script at Downloads/sensor_Configurer/YOUR_LOCATION_NAME/burn.sh";
 		error.style.color = "#cfeaeb";
 	} else {
 		error.textContent = "Please ensure that all fields are complete and Sensor Module Location contains no spaces";
