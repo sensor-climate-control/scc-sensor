@@ -11,13 +11,19 @@
     <br><br>
     <h1>Please Enter The Required Information:</h1>
     <h3>Note: Please connect your Arduino via usb before submitting the form</h3>
-    <br><br>
+    <br>
+    <div class="container1">
+        <button class="backbutton" onclick="history.back()"> ⇦ Back</button>
+    </div>
+    <br>
     <label for="ssid">Wifi Network Name:</label><br>
     <input type="text" id="ssid" name="ssid"><br>
     <label for="password">Wifi Network Password:</label><br>
-    <input type="text" id="pass" name="pass"><br>
+    <input type="password" id="pass" name="pass"><br>
     <label for="aName">Sensor Module Location: (Do not include spaces)</label><br>
     <input type="text" id="aLocation" name="aLocation"><br>
+    <label for="interval">Time Between Readings (Minutes):</label><br>
+    <input type="number" id="interval" name="interval" value="10"><br>
     <!--
     <label for="homeid">Home ID:</label><br>
     <input type="text" id="homeid" name="homeid"><br>

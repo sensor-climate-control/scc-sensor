@@ -2,51 +2,16 @@
 <html>
     <Head>
     <title>Login:</title>
-    <style>
-      body {
-         background: #0f797d;
-      }
-      h1 {
-  		color:  #cfeaeb;
-	  }
-      label {
-        color:  #cfeaeb;
-      }
-      h3 {
-        color:  #cfeaeb;
-      }
-
-        .container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      	flex-direction: column;
-        }
-      .button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border-radius: 6px;
-      background-color: white;
-      margin-top: 8px;
-  	  color: black;
- 	  border: 2px solid #cfeaeb;
-      transition-duration: 0.4s;
-      }
-      .button:hover {
-       background-color: #179296;
-       color: white;
-      }
-    </style>
+    <link rel="stylesheet" href="main.css" />
     </Head>
     <body>
         <div class="container">
         <h1>Please Login to your account:</h1>
         </div>
       	<br>
-        <h3>If you are using a self hosted option please change the server url below: (Do not include the protocol)</h3>
+        <h3>Only change Server if you are self hosting</h3>
             <div>
-                <label for="server">Server: (Do not change if you are not self hosting)</label><br>
+                <label for="server">Server: (Do not include the protocol)</label><br>
                 <input type="text" id="server" value="osuscc-testing.azurewebsites.net"/>
             </div>
             <div>

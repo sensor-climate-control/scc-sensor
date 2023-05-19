@@ -40,16 +40,16 @@ const String extendedUrl = SECRET_HOMEURL + sensor_topic;
 HttpClient client = HttpClient(wifi_client, server, port);
 
 // Message Interval
-const long interval = 8000;
+const long interval = atol(SECRET_INTERVAL);
 unsigned long previous_millis = 0;
 
 void setup() {
   Serial.print(extendedUrl);
   // Wait for serial connection
   Serial.begin(9600);
-  while (!Serial) {
-    Serial.print("No Serial?");
-  }
+//  while (!Serial) {
+//    Serial.print("No Serial?");
+//  }
 
   // Wait for internet connection
   Serial.print("Attempting to connect to WPA SSID: ");
@@ -149,7 +149,7 @@ void sendMqtt(float f, float t, float h) {
 void loop() {
   unsigned long current_millis = millis();
 
-  if (current_millis - previous_millis >= interval) {
+  if (current_millis - previous_millis >= interval || previous_millis == 0) {
     // If the current time matches the message interval
     float h = dht.readHumidity();
     float t = dht.readTemperature();

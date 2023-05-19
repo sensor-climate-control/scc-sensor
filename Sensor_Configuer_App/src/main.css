@@ -16,6 +16,33 @@ title {
 label {
     color:  #cfeaeb;
 }
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+      flex-direction: column;
+    }
+.container1 {
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+    height: 2ch;
+    justify-content: left;
+}
+.backbutton {
+    width: 60px;
+    align-items: left;
+    margin-left: 0px;
+    border-radius: 6px;
+    background-color: white;
+      color: black;
+     border: 2px solid #cfeaeb;
+    transition-duration: 0.4s;            
+}
+.backbutton:hover {
+background-color: #179296;
+color: white;
+}
 .button {
     display: flex;
     flex-direction: column;

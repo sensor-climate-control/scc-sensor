@@ -6,3 +6,4 @@
 #define SECRET_HOMEURL "/api/homes/homeidHere/"
 #define SECRET_TOKEN "Bearer 123456"
 #define SECRET_METHOD "http"
+#define SECRET_INTERVAL "Interval in milliseconds"

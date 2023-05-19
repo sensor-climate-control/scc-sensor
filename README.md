@@ -30,4 +30,5 @@ Then navigate to the executable
 #define SECRET_HOMEURL "/api/homes/generated_homeID/" //only the generated_homeID is changed
 #define SECRET_TOKEN "Bearer generated_token"
 #define SECRET_METHOD "http" //can be either "http" or "mqtt"
+#define SECRET_INTERVAL "interval in milliseconds"
 ```

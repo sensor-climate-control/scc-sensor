@@ -2,46 +2,21 @@
 <html>
     <Head>
     <title>Choose Your Hardware:</title>
-    <style>
-      body {
-         background: #0f797d;
-      }
-      h1 {
-  		color:  #cfeaeb;
-	  }
-
-        .container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      	flex-direction: column;
-        }
-      .button {
-      display: flex;
-      flex-direction: column;
-      width: 60%;
-      border-radius: 6px;
-      align-items: center;
-      background-color: white;
-  	  color: black;
- 	  border: 2px solid #cfeaeb;
-      transition-duration: 0.4s;
-      }
-      .button:hover {
-       background-color: #179296;
-       color: white;
-      }
-    </style>
+    <link rel="stylesheet" href="main.css" />
     </Head>
     <body>
         <div class="container">
         <h1>Please Choose Your Hardware:</h1>
         </div>
       	<br>
+        <div class="container1">
+          <button class="backbutton" onclick="history.back()"> ⇦ Back</button>
+        </div>        
+        <br>
         <div class="container">
         <button class="button" onclick="window.location.href='http.html'">I only have Sensor Modules</button>
         &nbsp;
-        <button class="button" onclick="window.location.href='mqtt.html'">I have Sensor Modules and a Raspberry Pi</button>
+        <button class="button" onclick="window.location.href='mqtt.html'">I have both Sensor Modules and Docker Containers Running</button>
         </div>
     </body>
 </html>

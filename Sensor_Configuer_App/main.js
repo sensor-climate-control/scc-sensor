@@ -16,7 +16,7 @@ function createWindow() {
 	});
 
 	ipcMain.handle('create-file', (req, data) => {
-		if (!data || !data.ssid || !data.pass || !data.aLocation || !data.homeid || !data.method || !data.server || !data.token || !data.userid) return false;
+		if (!data || !data.ssid || !data.pass || !data.aLocation || !data.homeid || !data.method || !data.server || !data.token || !data.userid || !data.interval) return false;
 		if (data.method == "mqtt" && !data.rasip) return false;
 		if (data.aLocation.indexOf(' ') >= 0) return false;
 		if (data.method == "mqtt") {
@@ -45,8 +45,9 @@ function createWindow() {
 				var SECRET_SERVER = `#define SECRET_SERVER "${data.server}"\n`;
 				var SECRET_HOMEURL = `#define SECRET_HOMEURL "/api/homes/${data.homeid}/"\n`;
 				var SECRET_TOKEN = `#define SECRET_TOKEN "NA"\n`;
-				var SECRET_METHOD = `#define SECRET_METHOD "${data.method}"`;
-				var arduinoSecretsString = SECRET_SSID.concat(SECRET_PASS, SECRET_BROKER, SECRET_SENSORTOPIC, SECRET_SERVER, SECRET_HOMEURL, SECRET_TOKEN, SECRET_METHOD);
+				var SECRET_METHOD = `#define SECRET_METHOD "${data.method}"\n`;
+				var SECRET_INTERVAL = `#define SECRET_INTERVAL "${data.interval}"`;
+				var arduinoSecretsString = SECRET_SSID.concat(SECRET_PASS, SECRET_BROKER, SECRET_SENSORTOPIC, SECRET_SERVER, SECRET_HOMEURL, SECRET_TOKEN, SECRET_METHOD, SECRET_INTERVAL);
 				var configSensorFolderPath = "/sensor_Configurer";
 				var folderpath = pathDown.concat(configSensorFolderPath);
 				if (!fs.existsSync(folderpath)) {
@@ -62,11 +63,8 @@ function createWindow() {
 				var bashFilePath = path.join(__dirname, 'src/bashScript/burn.sh');
 				fs.copyFileSync(inoFilePath, `${innerFolder}/${data.aLocation}.ino`);
 				fs.copyFileSync(bashFilePath, `${innerFolder}/burn.sh`);
-				//fs.copyFileSync("./resources/app/existingIno/sensor_Configurer.ino", `${innerFolder}/${data.aLocation}.ino`);
-				//fs.copyFileSync("./resources/app/bashScript/burn.sh", `${innerFolder}/burn.sh`);
 				var innerFolderPath = innerFolder.replaceAll('/', '\\');
-				shell.showItemInFolder(`${innerFolderPath}\\burn.sh`);
-				//shell.openPath(`${innerFolderPath}`);				
+				shell.showItemInFolder(`${innerFolderPath}\\burn.sh`);			
 			})
 			return { success: true };			
 		} else {
@@ -112,8 +110,9 @@ function createWindow() {
 					var SECRET_SERVER = `#define SECRET_SERVER "${data.server}"\n`;
 					var SECRET_HOMEURL = `#define SECRET_HOMEURL "/api/homes/${data.homeid}/"\n`;
 					var SECRET_TOKEN = `#define SECRET_TOKEN "Bearer ${tokendata.token}"\n`; //this should be the token that gets posted
-					var SECRET_METHOD = `#define SECRET_METHOD "${data.method}"`;
-					var arduinoSecretsString = SECRET_SSID.concat(SECRET_PASS, SECRET_BROKER, SECRET_SENSORTOPIC, SECRET_SERVER, SECRET_HOMEURL, SECRET_TOKEN, SECRET_METHOD);
+					var SECRET_METHOD = `#define SECRET_METHOD "${data.method}"\n`;
+					var SECRET_INTERVAL = `#define SECRET_INTERVAL "${data.interval}"`;
+					var arduinoSecretsString = SECRET_SSID.concat(SECRET_PASS, SECRET_BROKER, SECRET_SENSORTOPIC, SECRET_SERVER, SECRET_HOMEURL, SECRET_TOKEN, SECRET_METHOD, SECRET_INTERVAL);
 					var configSensorFolderPath = "/sensor_Configurer";
 					var folderpath = pathDown.concat(configSensorFolderPath);
 					if (!fs.existsSync(folderpath)) {
@@ -129,10 +128,7 @@ function createWindow() {
 					var bashFilePath = path.join(__dirname, 'src/bashScript/burn.sh');
 					fs.copyFileSync(inoFilePath, `${innerFolder}/${data.aLocation}.ino`);
 					fs.copyFileSync(bashFilePath, `${innerFolder}/burn.sh`);
-					//fs.copyFileSync("./resources/app/existingIno/sensor_Configurer.ino", `${innerFolder}/${data.aLocation}.ino`);
-					//fs.copyFileSync("./resources/app/bashScript/burn.sh", `${innerFolder}/burn.sh`);
 					var innerFolderPath = innerFolder.replaceAll('/', '\\');
-					//shell.openPath(`${innerFolderPath}`);
 					shell.showItemInFolder(`${innerFolderPath}\\burn.sh`);				
 				})
 			})
