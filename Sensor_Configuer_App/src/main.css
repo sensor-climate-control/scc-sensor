@@ -16,6 +16,9 @@ title {
 label {
     color:  #cfeaeb;
 }
+.nohome {
+    color: #cfeaeb;
+}
 .container {
     display: flex;
     align-items: center;

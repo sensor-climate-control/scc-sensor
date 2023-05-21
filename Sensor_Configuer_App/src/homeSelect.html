@@ -40,6 +40,11 @@
                 return res.json();
             }).then(data => {
                 console.log(data);
+                if(data.homes == undefined) {
+                    console.log("No homes");
+                    const nohomes = `<span class="nohome">You have not created a home please refer to the wiki to see how</span>`
+                    document.querySelector('ul').insertAdjacentHTML("beforeend", nohomes);
+                } else {
                 data.homes.forEach(home => {
                     fetch(`https://${server}/api/homes/${home}`, {
                         method: 'GET',
@@ -55,6 +60,7 @@
                     //const markup = `<button>${home}</button>`;
                     //document.querySelector('ul').insertAdjacentHTML("beforeend", markup);
                 });
+                }
             }).catch(error => console.log(error));
         </script>
     </body>

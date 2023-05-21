@@ -37,10 +37,11 @@ submit_el.addEventListener('click', async () => {
 	if (res.success == true) {
 		console.log("Success!!!!");
         aLocation_el.value = "";
-		error.textContent = "Success! Please run the burn.sh script at Downloads/sensor_Configurer/YOUR_LOCATION_NAME/burn.sh\r\nIf you want to create another sensor simply enter in the name of the new sensor above and submit again";
+		error.textContent = "Success! Please run the burn.sh script at Downloads/sensor_Configurer/YOUR_LOCATION_NAME/burn.sh. After if you want to create another sensor simply enter in the location of the new sensor above and resubmit with the new sensor module plugged in";
 		error.style.color = "#cfeaeb";
 	} else {
-		error.textContent = "Please ensure that all fields are complete and Sensor Module Location contains no spaces";
+		error.textContent = res.error;
+		//error.textContent = "Please ensure that all fields are complete and Sensor Module Location contains no spaces";
 		error.style.color = "red";
 	}
 })

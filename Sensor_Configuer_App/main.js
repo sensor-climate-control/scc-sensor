@@ -16,9 +16,10 @@ function createWindow() {
 	});
 
 	ipcMain.handle('create-file', (req, data) => {
-		if (!data || !data.ssid || !data.pass || !data.aLocation || !data.homeid || !data.method || !data.server || !data.token || !data.userid || !data.interval) return false;
-		if (data.method == "mqtt" && !data.rasip) return false;
-		if (data.aLocation.indexOf(' ') >= 0) return false;
+		if (!data || !data.ssid || !data.pass || !data.aLocation || !data.homeid || !data.method || !data.server || !data.token || !data.userid || !data.interval) return {success: false, error: "Please ensure that all fields are complete"};
+		if (data.method == "mqtt" && !data.rasip) return {	success: false, error: "Docker IP is blank"};
+		if (data.aLocation.indexOf(' ') >= 0) return { success: false, error: "Sensor Module Location Cannot Contain Spaces"};
+		if (Number(data.interval) > 360*60000 || Number(data.interval) < 1*60000) return {success: false, error: "Time between readings must be in the range 1 - 360"};
 		if (data.method == "mqtt") {
 			fetch(`https://${data.server}/api/homes/${data.homeid}/sensors/`, {
 				method: 'POST',
