@@ -8,7 +8,6 @@
 #define DHTPIN 2       // Digital pin connected to the DHT sensor
 #define DHTTYPE DHT11  // DHT 11
 DHT dht(DHTPIN, DHTTYPE);
-
 // Adapted From: https://docs.arduino.cc/tutorials/uno-wifi-rev2/uno-wifi-r2-mqtt-device-to-device
 
 // Specify WiFi information
@@ -36,8 +35,6 @@ const String bearerToken = SECRET_TOKEN;
 char server[] = SECRET_SERVER;
 const int port = 443;
 const String extendedUrl = SECRET_HOMEURL + sensor_topic;
-// Create a Http client for requests
-HttpClient client = HttpClient(wifi_client, server, port);
 
 // Message Interval
 const long interval = atol(SECRET_INTERVAL);
@@ -47,9 +44,6 @@ void setup() {
   Serial.print(extendedUrl);
   // Wait for serial connection
   Serial.begin(9600);
-//  while (!Serial) {
-//    Serial.print("No Serial?");
-//  }
 
   // Wait for internet connection
   Serial.print("Attempting to connect to WPA SSID: ");
@@ -84,6 +78,8 @@ void connectToMqttBroker() {
 }
 
 void httpRequest(float f, float t, float h) {
+  //create http client for requests
+  HttpClient client = HttpClient(wifi_client, server, port);
   //create json object
   const size_t capacity = JSON_OBJECT_SIZE(6);
   DynamicJsonDocument doc(capacity);
@@ -126,6 +122,7 @@ void httpRequest(float f, float t, float h) {
   Serial.print("Response: ");
   Serial.println(response);
   Serial.println(); 
+  client.stop();
 }
 void sendMqtt(float f, float t, float h) {
 
@@ -146,9 +143,9 @@ void sendMqtt(float f, float t, float h) {
     mqtt_client.endMessage();
   }
 }
+
 void loop() {
   unsigned long current_millis = millis();
-
   if (current_millis - previous_millis >= interval || previous_millis == 0) {
     // If the current time matches the message interval
     float h = dht.readHumidity();
@@ -171,11 +168,8 @@ void loop() {
     status = WiFi.status();
     if (status==WL_DISCONNECTED || status==WL_CONNECTION_LOST) {
       Serial.print("WiFi Connection Lost Attempting to Reconnect:");
-      while (status != WL_CONNECTED) {
-        status = WiFi.begin(ssid, pass);
-        Serial.print(".");
-        delay(10000);
-      }
+      NVIC_SystemReset();
+      // Re-attempt internet connection until internet connection astablished
     }
     if (isnan(h) || isnan(t) || isnan(f)) {
       // If pulling sensor data fails print an error message
