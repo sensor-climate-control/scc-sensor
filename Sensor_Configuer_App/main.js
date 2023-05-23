@@ -14,6 +14,10 @@ function createWindow() {
 			preload: path.join(__dirname, 'preload.js')
 		}
 	});
+	win.webContents.setWindowOpenHandler(({ url }) => {
+		shell.openExternal(url);
+		return { action: 'deny' };
+	  });
 
 	ipcMain.handle('create-file', (req, data) => {
 		if (!data || !data.ssid || !data.pass || !data.aLocation || !data.homeid || !data.method || !data.server || !data.token || !data.userid || !data.interval) return {success: false, error: "Please ensure that all fields are complete"};

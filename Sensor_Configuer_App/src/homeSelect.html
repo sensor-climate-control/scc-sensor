@@ -42,7 +42,7 @@
                 console.log(data);
                 if(data.homes == undefined) {
                     console.log("No homes");
-                    const nohomes = `<span class="nohome">You have not created a home please refer to the wiki to see how</span>`
+                    const nohomes = `<span class="nohome">You have not created a home please refer to the <a href="https://github.com/sensor-climate-control/scc-sensor/wiki" target="_blank">wiki</a> to see how</span>`
                     document.querySelector('ul').insertAdjacentHTML("beforeend", nohomes);
                 } else {
                 data.homes.forEach(home => {
